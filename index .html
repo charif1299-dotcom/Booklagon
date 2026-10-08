@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="th"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>ใครเกี่ยวข้องกับการศึกษาของเรา?</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Thai:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+:root{box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);--ink:#26324a;--mut:#5d6b85}
+*{box-sizing:border-box}html{scroll-padding-top:env(safe-area-inset-top,0px)}
+body{margin:0;background:#f7faff;color:var(--ink);font:18px/1.6 'Noto Sans Thai',system-ui,sans-serif}
+nav{display:flex;gap:6px;flex-wrap:wrap;justify-content:center;padding:10px;background:#fff;box-shadow:0 2px 10px #0001;position:sticky;top:env(safe-area-inset-top,0px);z-index:5}
+nav button{font:inherit;font-size:16px;border:0;background:none;padding:10px 14px;border-radius:14px;cursor:pointer;color:var(--ink);min-height:44px}
+nav button.on{background:#dbeeff;font-weight:700}
+main{max-width:1100px;margin:auto;padding:24px 16px 60px}
+h1{font-size:clamp(30px,5vw,44px);line-height:1.25;margin:.2em 0}
+h2{font-size:clamp(24px,3.5vw,30px);margin:.2em 0}
+.c{text-align:center}.mut{color:var(--mut)}
+.btn{font:inherit;font-weight:700;background:#3b82f6;color:#fff;border:0;border-radius:24px;padding:14px 32px;font-size:20px;cursor:pointer;box-shadow:0 4px 12px #3b82f64d}
+.orbit{position:relative;width:min(92vw,420px);aspect-ratio:1;margin:20px auto}
+.orbit .m,.orbit .o{position:absolute;transform:translate(-50%,-50%);text-align:center}
+.m{font-size:64px;background:#fff;border-radius:50%;width:110px;height:110px;display:grid;place-items:center;box-shadow:0 6px 20px #0002}
+.o{font-size:34px;background:#fff;border-radius:50%;width:64px;height:64px;display:grid;place-items:center;box-shadow:0 3px 10px #0002}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:18px;margin-top:18px}
+.card{background:var(--bg);border-radius:22px;padding:20px;text-align:center;box-shadow:0 4px 14px #0001;cursor:pointer;border:0;font:inherit;color:inherit;min-height:44px;transition:transform .15s}
+.card:hover{transform:translateY(-3px)}
+.card .ic{font-size:52px}.card b{display:block;font-size:22px}.card small{display:block;color:var(--mut);font-size:16px;margin:4px 0}
+.card u{text-decoration:none;font-weight:600;font-size:16px}
+.chips{display:flex;gap:8px;flex-wrap:wrap;margin:14px 0}
+.chip{font:inherit;font-size:16px;border:2px solid #dbe3f0;background:#fff;border-radius:20px;padding:8px 16px;cursor:pointer;min-height:44px}
+.chip.on{background:var(--bg,#dbeeff);border-color:#26324a55;font-weight:700}
+input{font:inherit;width:100%;padding:14px 18px;border:2px solid #dbe3f0;border-radius:20px}
+.modal{position:fixed;inset:0;background:#0006;display:none;align-items:flex-start;justify-content:center;overflow:auto;padding:20px 12px;z-index:9}
+.modal.show{display:flex}
+.sheet{background:#fff;border-radius:26px;max-width:720px;width:100%;padding:24px;position:relative}
+.x{position:absolute;right:14px;top:14px;border:0;background:#eef2f9;border-radius:50%;width:44px;height:44px;font-size:20px;cursor:pointer}
+.sec{border-radius:18px;padding:16px 18px;margin-top:14px;background:var(--bg)}
+.sec h3{margin:0 0 6px;font-size:22px}
+.sec ul{margin:0;padding-left:22px}
+.box{background:#fff;border-radius:24px;padding:18px;box-shadow:0 4px 14px #0001}
+.more{display:block;margin:22px auto 0}
+svg text{font-family:inherit}
+.nd{cursor:pointer}
+</style></head><body>
+<nav id="nav"></nav><main id="v"></main>
+<div class="modal" id="md"><div class="sheet" id="sh"></div></div>
+<script>
+const C={
+family:{n:'ผู้เรียนและครอบครัว',i:'👨‍👩‍👧',c:'#dbeeff',s:'อยู่ใกล้ชิดและสนับสนุนเด็ก',r:'อยู่ใกล้เด็กที่สุด ดูแลและให้กำลังใจให้เด็กพร้อมเรียนรู้',w:[['👩‍🏫','ครู','คุยเรื่องการเรียนของเด็ก'],['🏫','โรงเรียน','ร่วมกิจกรรมและประชุม'],['🏘️','ชุมชน','แบ่งปันภูมิปัญญา']],h:['ให้ความรักและความอบอุ่น','ดูแลอาหาร การนอน และสุขภาพ','ชวนอ่านหนังสือและทบทวนบทเรียน']},
+teacher:{n:'ครูและผู้สอน',i:'🧑‍🏫',c:'#dcf5e0',s:'สอนและแนะนำการเรียนรู้',r:'ออกแบบและจัดการเรียนรู้ ให้ความรู้และทักษะแก่เด็ก',w:[['👧','นักเรียน','สอนและให้คำแนะนำ'],['👨‍👩‍👧','ผู้ปกครอง','แจ้งความก้าวหน้า'],['🏫','ผู้อำนวยการ','วางแผนการสอน'],['🧠','นักจิตวิทยา','ช่วยดูแลเด็กที่ต้องการ']],h:['ช่วยให้เข้าใจบทเรียน','ให้กำลังใจเมื่อเจอเรื่องยาก','ค้นหาความสามารถของเด็ก']},
+school:{n:'ผู้บริหารและบุคลากรในโรงเรียน',i:'🏫',c:'#ffe8cf',s:'ทำให้โรงเรียนปลอดภัยและเรียบร้อย',r:'ดูแลให้โรงเรียนเป็นสถานที่ปลอดภัย สะอาด และพร้อมสำหรับการเรียน',w:[['🧑‍🏫','ครู','สนับสนุนการสอน'],['👨‍👩‍👧','ผู้ปกครอง','สื่อสารเรื่องโรงเรียน'],['🔎','ผู้สนับสนุน','ประสานงานและขอคำแนะนำ']],h:['จัดสิ่งแวดล้อมที่ปลอดภัย','จัดอาหารกลางวัน ห้องสมุด และอุปกรณ์','ดูแลระบบให้การเรียนราบรื่น']},
+support:{n:'บุคลากรสนับสนุนและกำกับการศึกษา',i:'🔎',c:'#eadcff',s:'ช่วยโรงเรียนทำงานได้ดีขึ้น',r:'ให้คำแนะนำ ติดตาม และจัดระบบ เพื่อให้โรงเรียนจัดการศึกษาได้ดี',w:[['🏫','ผู้อำนวยการโรงเรียน','ให้คำแนะนำ'],['🧑‍🏫','ครู','พัฒนาการสอน'],['🎓','ผู้เชี่ยวชาญ','ปรึกษาความรู้ใหม่']],h:['ช่วยโรงเรียนวางแผน','จัดหาบุคลากรและงบประมาณ','ติดตามให้เด็กได้รับการศึกษาที่ดี']},
+local:{n:'การศึกษาท้องถิ่น',i:'🏘️',c:'#fff4c2',s:'ดูแลการศึกษาใกล้บ้าน',r:'สนับสนุนโรงเรียนและศูนย์เด็กเล็กในพื้นที่ให้ตรงกับความต้องการของชุมชน',w:[['🏫','โรงเรียน','สนับสนุนงบประมาณและกิจกรรม'],['👨‍👩‍👧','ครอบครัว','รับฟังความต้องการ'],['🧑‍🏫','ครูท้องถิ่น','ร่วมพัฒนาเด็กเล็ก']],h:['ดูแลศูนย์พัฒนาเด็กเล็ก','สนับสนุนกิจกรรมในชุมชน','เชื่อมโยงเด็กกับวัฒนธรรมท้องถิ่น']},
+regulator:{n:'ผู้กำกับดูแลและระดับนโยบาย',i:'👨‍⚖️',c:'#d6e2ff',s:'กำหนดทิศทางการศึกษา',r:'กำหนดนโยบาย กฎระเบียบ และทิศทางของการศึกษาในภาพรวม',w:[['🔎','เขตพื้นที่การศึกษา','ถ่ายทอดนโยบาย'],['🏫','โรงเรียน','ติดตามการดำเนินงาน'],['🎓','ผู้เชี่ยวชาญ','ขอคำปรึกษา']],h:['วางนโยบายให้เด็กทุกคนได้เรียน','จัดสรรทรัพยากรให้เหมาะสม','ติดตามคุณภาพการศึกษา']},
+expert:{n:'นักวิชาการและผู้เชี่ยวชาญ',i:'🎓',c:'#ffdcec',s:'ค้นคว้าวิธีให้เด็กเรียนรู้ได้ดี',r:'วิจัย ออกแบบหลักสูตร และประเมินผล เพื่อให้เด็กเรียนรู้อย่างมีประสิทธิภาพ',w:[['🧑‍🏫','ครู','ให้ความรู้และวิธีสอน'],['🔎','ผู้สนับสนุน','ส่งต่อผลวิจัย'],['👨‍⚖️','ผู้กำหนดนโยบาย','เสนอข้อมูลประกอบ']],h:['ออกแบบสิ่งที่เด็กควรเรียน','พัฒนาวิธีสอนใหม่ๆ','ช่วยตรวจสอบว่าเด็กเรียนรู้ได้จริง']}};
+const D={
+family:'👨‍👩‍👧ผู้ปกครอง,👨พ่อ,👩แม่,🤱ผู้ดูแลเด็ก,🏠ผู้ปกครองอุปถัมภ์,🏘️ผู้นำชุมชน,🌾ปราชญ์ชาวบ้าน',
+teacher:'ครูปฐมวัย,👩‍🏫ครูประจำชั้น,ครูประจำวิชา,ครูผู้ช่วย,🤝ครูการศึกษาพิเศษ,💬ครูแนะแนว,🔬ครูวิทยาศาสตร์,➕ครูคณิตศาสตร์,📝ครูภาษาไทย,🌍ครูภาษาต่างประเทศ,🗺️ครูสังคมศึกษา,🎨ครูศิลปะ,🎵ครูดนตรี,⚽ครูพลศึกษา,💻ครูคอมพิวเตอร์,🔧ครูเทคโนโลยี,🛠️ครูอาชีวศึกษา,ครูฝึกงาน/ครูฝึกปฏิบัติ,🎓อาจารย์มหาวิทยาลัย,อาจารย์พิเศษ,🎤วิทยากร,🌾ภูมิปัญญาท้องถิ่น',
+school:'🏫ผู้อำนวยการสถานศึกษา,รองผู้อำนวยการสถานศึกษา,หัวหน้าฝ่ายวิชาการ,หัวหน้ากลุ่มสาระการเรียนรู้,หัวหน้าระดับชั้น,หัวหน้างานกิจการนักเรียน,หัวหน้างานแนะแนว,ครูพี่เลี้ยง,ครูเวร,ครูที่ปรึกษา,🧠นักจิตวิทยาโรงเรียน,🤲นักสังคมสงเคราะห์,📋เจ้าหน้าที่ธุรการโรงเรียน,💰เจ้าหน้าที่การเงิน,📦เจ้าหน้าที่พัสดุ,📚เจ้าหน้าที่ห้องสมุด,📽️เจ้าหน้าที่โสตทัศนศึกษา,🖥️เจ้าหน้าที่ IT,🍚เจ้าหน้าที่อาหารกลางวัน,🚌พนักงานขับรถโรงเรียน,🧹นักการภารโรง,🧼แม่บ้าน,🛡️รปภ.',
+support:'🔎ศึกษานิเทศก์,ผู้อำนวยการสำนักงานเขตพื้นที่การศึกษา,รองผู้อำนวยการสำนักงานเขตพื้นที่การศึกษา,📚นักวิชาการศึกษา,📊นักวิเคราะห์นโยบายและแผน,นักทรัพยากรบุคคลด้านการศึกษา,💰นักวิชาการเงินและบัญชี,📦นักวิชาการพัสดุ,💻นักวิชาการคอมพิวเตอร์,⚖️นิติกรด้านการศึกษา,นักจัดการงานทั่วไป,📣นักประชาสัมพันธ์,ผู้บริหารการศึกษา,เจ้าหน้าที่ส่งเสริมการศึกษา',
+local:'🏢นายกองค์การบริหารส่วนจังหวัด,นายกเทศมนตรี,นายกองค์การบริหารส่วนตำบล,รองนายก,ปลัด อปท.,ผู้อำนวยการกองการศึกษา,หัวหน้าฝ่ายการศึกษา,📚นักวิชาการศึกษา (ท้องถิ่น),เจ้าพนักงานการศึกษา,🏫ผู้บริหารสถานศึกษาสังกัด อปท.,🧑‍🏫ครูสังกัด อปท.,🤱ผู้ดูแลเด็ก (ท้องถิ่น),🧸ครูศูนย์พัฒนาเด็กเล็ก,ผู้ช่วยครู,คณะกรรมการการศึกษาท้องถิ่น',
+regulator:'🏛️รัฐมนตรีว่าการกระทรวงศึกษาธิการ,รัฐมนตรีช่วยว่าการกระทรวงศึกษาธิการ,ปลัดกระทรวงศึกษาธิการ,เลขาธิการด้านการศึกษา,ผู้บริหารระดับสูงด้านการศึกษา,ผู้ว่าราชการจังหวัด,ศึกษาธิการจังหวัด,รองศึกษาธิการจังหวัด,ศึกษาธิการอำเภอ,ผู้บริหารการศึกษาท้องถิ่น,👥คณะกรรมการสถานศึกษา,กรรมการผู้ทรงคุณวุฒิด้านการศึกษา',
+expert:'📚นักวิชาการศึกษา (ผู้เชี่ยวชาญ),🔬นักวิจัยด้านการศึกษา,🧠นักจิตวิทยาการศึกษา,📏นักวัดและประเมินผล,📖ผู้เชี่ยวชาญด้านหลักสูตร,💡ผู้เชี่ยวชาญด้านการเรียนรู้,🤝ผู้เชี่ยวชาญด้านการศึกษาพิเศษ,💻ผู้เชี่ยวชาญด้านเทคโนโลยีการศึกษา,🎓อาจารย์ด้านศึกษาศาสตร์,นักพัฒนาหลักสูตร,🎨นักออกแบบการเรียนรู้,✅ผู้ประเมินคุณภาพการศึกษา'};
+const O={'ครูประจำชั้น':{d:'ครูที่ดูแลนักเรียนในห้องและติดตามการเรียน ความเป็นอยู่ และพัฒนาการของนักเรียน',r:'ดูแลนักเรียนในห้อง ติดตามการเรียน ให้คำปรึกษา และประสานงานกับผู้ปกครอง',w:[['👧','นักเรียน','ดูแลการเรียนและความเป็นอยู่'],['👨‍👩‍👧','ผู้ปกครอง','แจ้งความก้าวหน้า'],['🧑‍🏫','ครูประจำวิชา','แลกเปลี่ยนเรื่องนักเรียน'],['🏫','ผู้อำนวยการ','รายงานและขอคำแนะนำ'],['🧠','นักจิตวิทยาโรงเรียน','ช่วยดูแลเมื่อมีปัญหา']],h:['ช่วยติดตามการเรียน','ช่วยดูแลเมื่อมีปัญหา','ประสานงานกับผู้ปกครอง','ช่วยให้นักเรียนปรับตัวในโรงเรียน']},
+'นักเรียน':{d:'เด็กที่มาเรียนรู้ในโรงเรียนทุกวัน เป็นศูนย์กลางของการศึกษา',r:'เรียนรู้ ถามคำถาม และลองทำสิ่งใหม่ๆ',w:[['👩‍🏫','ครู','เรียนรู้ด้วยกัน'],['👨‍👩‍👧','ครอบครัว','เล่าเรื่องที่โรงเรียน'],['🧒','เพื่อน','ช่วยเหลือกัน']],h:['เรียนรู้และเติบโต','แบ่งปันความคิด']}};
+const P=[];Object.keys(D).forEach(k=>D[k].split(',').forEach(s=>{const m=s.match(/^(\p{Extended_Pictographic}\uFE0F?(?:\u200D\p{Extended_Pictographic}\uFE0F?)*)(.*)$/u);P.push({k,ic:m?m[1]:C[k].i,n:(m?m[2]:s).trim(),id:P.length})}));
+const info=p=>{const c=C[p.k],o=O[p.n]||{};return{d:o.d||p.n+' เป็นส่วนหนึ่งของกลุ่ม “'+c.n+'” ที่'+c.r,r:o.r||c.r,w:o.w||c.w,h:o.h||c.h}};
+const $=s=>document.querySelector(s),v=$('#v');
+let page='home',flt='all',q='',lim=24,hist=[];
+const T=[['home','🏠 หน้าแรก'],['over','🧭 ภาพรวม'],['people','👥 บุคคลที่เกี่ยวข้อง'],['about','ℹ️ เกี่ยวกับเนื้อหา']];
+function back(){if($('#md').classList.contains('show'))return cl();const h=hist.pop();if(h){page=h[0];flt=h[1];lim=24;q='';render();scrollTo(0,0)}}
+function go(p,f){if(p!=page||(f&&f!=flt))hist.push([page,flt]);page=p;if(f)flt=f;lim=24;q='';render();scrollTo(0,0)}
+function pos(n,i,R,cx,cy){const a=i/n*2*Math.PI-Math.PI/2;return[cx+R*Math.cos(a),cy+R*Math.sin(a)]}
+function render(){render0();if(hist.length)v.insertAdjacentHTML('afterbegin','<button class="chip" onclick="back()">← ย้อนกลับ</button>')}
+function render0(){
+$('#nav').innerHTML=T.map(t=>`<button class="${t[0]==page?'on':''}" onclick="go('${t[0]}','all')">${t[1]}</button>`).join('');
+const ks=Object.keys(C);
+if(page=='home'){
+const ic=['👨‍👩‍👧','👩‍🏫','🏫','🧠','🏘️','🏢','📚','👨‍⚖️'];
+v.innerHTML=`<div class="c"><h1>ใครเกี่ยวข้องกับการศึกษาของเรา?</h1><p class="mut" style="max-width:640px;margin:auto">การศึกษาของเด็กไม่ได้เกิดขึ้นจากคนเพียงคนเดียว แต่มีหลายคนที่ช่วยกันดูแล สนับสนุน และสร้างโอกาสให้เด็กได้เรียนรู้</p>
+<div class="orbit"><div class="m" style="left:50%;top:50%">👧</div>${ic.map((e,i)=>{const[x,y]=pos(8,i,40,50,50);return`<div class="o" style="left:${x}%;top:${y}%">${e}</div>`}).join('')}</div>
+<button class="btn" onclick="go('over')">เริ่มสำรวจ</button></div>`}
+else if(page=='over'){
+const g=[['family','👨‍👩‍👧','ครอบครัว','ผู้ปกครอง / พ่อ / แม่ / ผู้ดูแลเด็ก'],['teacher','🧑‍🏫','ครูและผู้สอน','ครูปฐมวัย / ครูประจำชั้น / ครูประจำวิชา / ครูแนะแนว'],['school','🏫','โรงเรียน','ผู้อำนวยการ / รองผู้อำนวยการ / บุคลากรสนับสนุน'],['support','🔎','ผู้สนับสนุนการศึกษา','ศึกษานิเทศก์ / นักวิชาการศึกษา / นักจิตวิทยา / นักสังคมสงเคราะห์'],['local','🏘️','ท้องถิ่นและชุมชน','ผู้นำชุมชน / นายก อปท. / บุคลากรการศึกษาท้องถิ่น / ปราชญ์ชาวบ้าน'],['expert','🎓','นักวิชาการและผู้กำกับดูแล','นักวิจัย / ผู้เชี่ยวชาญ / ผู้บริหารการศึกษา / ผู้กำหนดนโยบาย']];
+v.innerHTML=`<div class="c"><h2>เด็กหนึ่งคน มีใครช่วยดูแลบ้าง?</h2><p class="mut">กดที่กลุ่มเพื่อดูว่ามีใครอยู่ในกลุ่มนี้</p><div style="font-size:70px">👧</div><div class="mut">เด็ก</div></div>
+<div class="grid">${g.map(x=>`<button class="card" style="--bg:${C[x[0]].c}" onclick="go('people','${x[0]}')"><div class="ic">${x[1]}</div><b>${x[2]}</b><small>${x[3]}</small><u>ดูรายละเอียด →</u></button>`).join('')}</div>`}
+else if(page=='people'){
+const L=P.filter(p=>(flt=='all'||p.k==flt||(flt=='expert'&&p.k=='regulator'&&0))&&(!q||(p.n+C[p.k].n).includes(q)));
+const ch=[['all','ทั้งหมด']].concat(ks.map(k=>[k,C[k].n.split('และ')[0].replace('ผู้เรียน','ครอบครัว')]));
+v.innerHTML=`<h2>👥 บุคคลที่เกี่ยวข้อง</h2><input id="q" placeholder="🔍 ค้นหาบุคคล เช่น “ครู” “ผู้ปกครอง” “นักจิตวิทยา”" value="${q}" oninput="q=this.value;lim=24;list()">
+<div class="chips">${ch.map(c=>`<button class="chip ${flt==c[0]?'on':''}" style="--bg:${c[0]=='all'?'#e5e9f2':C[c[0]].c}" onclick="flt='${c[0]}';lim=24;render()">${c[1]}</button>`).join('')}</div><div id="ls"></div>`;list()}
+else{v.innerHTML=`<div class="box" style="max-width:720px;margin:auto"><h2>ℹ️ เกี่ยวกับเนื้อหา</h2><p>เว็บไซต์นี้ใช้เป็นสื่อประกอบการสอน ไม่มีเกม คะแนน หรือแบบทดสอบ ครูสามารถเปิดฉายบนจอหรือ Interactive Board เพื่อให้นักเรียนสำรวจร่วมกันได้</p><p>เมื่อดูจบ ควรเข้าใจว่า <b>การศึกษาไม่ได้เกิดขึ้นจากครูเพียงคนเดียว</b> แต่เกิดจากเด็ก ครอบครัว ครู โรงเรียน ผู้เชี่ยวชาญ ชุมชน ท้องถิ่น และผู้กำกับดูแลทำงานร่วมกัน</p><p>คำถามชวนคิด: คนนี้ทำอะไร? เขาทำงานร่วมกับใคร? เขาช่วยเด็กอย่างไร?</p><p class="mut">หมายเหตุ: รายละเอียดของบุคคลส่วนใหญ่เป็นคำอธิบายระดับกลุ่ม ครูควรตรวจสอบและเพิ่มเติมให้ตรงกับบริบทจริง</p></div>`}}
+function list(){const L=P.filter(p=>(flt=='all'||p.k==flt)&&(!q||(p.n+C[p.k].n).includes(q)));
+$('#ls').innerHTML=`<div class="mut">พบ ${L.length} รายการ</div><div class="grid">${L.slice(0,lim).map(p=>`<button class="card" style="--bg:${C[p.k].c}" onclick="open_(${p.id})"><div class="ic">${p.ic}</div><b>${p.n}</b><small>${C[p.k].s}</small><u>ดูรายละเอียด →</u></button>`).join('')}</div>${L.length>lim?`<button class="btn more" onclick="lim+=24;list()">ดูเพิ่ม</button>`:''}`}
+function open_(id){const p=P[id],f=info(p),c=C[p.k],W=f.w.slice(0,5);
+$('#sh').innerHTML=`<button class="chip" onclick="cl()">← ย้อนกลับ</button><button class="x" onclick="cl()" aria-label="ปิด">✕</button><div class="c" style="background:${c.c};border-radius:20px;padding:18px"><div style="font-size:64px">${p.ic}</div><h2>${p.n}</h2><div>${f.d}</div></div>
+<div class="sec" style="--bg:#fff8dc"><h3>① ⭐ บทบาทสำคัญ</h3><b>เขาทำอะไร?</b><div>${f.r}</div></div>
+<div class="sec" style="--bg:#eef6ff"><h3>② 🤝 ทำงานร่วมกับใคร?</h3><svg viewBox="0 0 400 300" width="100%">${W.map((w,i)=>{const[x,y]=pos(W.length,i,105,200,150);return`<line x1="200" y1="150" x2="${x}" y2="${y}" stroke="#aebbd6" stroke-width="2"/><circle cx="${x}" cy="${y}" r="26" fill="#fff" stroke="#c7d3ea"/><text x="${x}" y="${y+10}" text-anchor="middle" font-size="26">${w[0]}</text><text x="${x}" y="${y+44}" text-anchor="middle" font-size="12" fill="#26324a">${w[1]}</text>`}).join('')}<circle cx="200" cy="150" r="34" fill="${c.c}" stroke="#26324a44"/><text x="200" y="164" text-anchor="middle" font-size="38">${p.ic}</text></svg><ul>${W.map(w=>`<li>${w[0]} ${w[1]} — ${w[2]}</li>`).join('')}</ul></div>
+<div class="sec" style="--bg:#ffeef0"><h3>③ ❤️ ช่วยเด็กได้อย่างไร?</h3><ul>${f.h.map(x=>`<li>${x}</li>`).join('')}</ul></div>`;$('#md').classList.add('show')}
+function cl(){$('#md').classList.remove('show')}
+$('#md').onclick=e=>{if(e.target.id=='md')cl()};
+render();
+</script></body></html>
